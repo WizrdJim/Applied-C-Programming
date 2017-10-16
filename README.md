@@ -251,6 +251,14 @@ Map a file directly to memory for easy read/write
 
 #  Assignment
 
+pseudo code (start)
+- Check the readme for instructions
+- Parse the assignment
+- Find where work needs to be done
+- Parse input received from the broser
+- return viable information back to the browser
+(end)
+
 Your objective is to refactor the following simple UNIX net sockets server `server.c` to respond to a few specific requests, including storing a message sent by a previous uploader.
 
 The HTTP protocol is a simple text protocol that is parsed line by line by C servers around the world. It is much easier to write an HTTP server using Node.js, and much more informative to create one from scratch with C. For our benefit we can use the example socket server code to protect us from the primarily hassle of writing a simple C server. Real HTTP servers need to be fault tolerant (able to return an ISE 500 when something goes wrong), multi threaded, and efficient.
@@ -362,3 +370,17 @@ Parameters
 # Resources
 
 http://beej.us/guide/bgipc/output/html/singlepage/bgipc.html
+
+
+if (send(new_fd, "HTTP/1.0 200 OK\n\n<html><\\html>", 32, 0) == -1)
+we hear you
+oops, wrong slash
+if (send(new_fd, "HTTP/1.0 200 OK\n\n<html><\\html>", 32, 0) == -1)
+wait - this:
+if (send(new_fd, "HTTP/1.0 200 OK\n\n<html></html>", 31, 0) == -1);
+
+
+char search[5] = {'P', 'O', 'S', 'T', '\0'};
+if (strstr(buffer, search)) {
+printf("\nFound\n"):
+}
