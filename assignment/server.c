@@ -17,9 +17,9 @@
 
 #define PORT "7080"  // the port users will be connecting to
 
-#define GET_ROOT "GET / HTTP/1.0"
-#define GET_INFO "GET /info HTTP/1.0"
-#define POST_INFO "POST /info HTTP/1.0"
+#define GET_ROOT "GET / HTTP/1.1"
+#define GET_INFO "GET /info HTTP/1.1"
+#define POST_INFO "POST /info HTTP/1.1"
 #define DATE "Date:"
 #define SERVER "Server:"
 #define CONTENT_LENGTH "Content-Length:"
@@ -135,14 +135,47 @@ int main(void)
       int read_result = read(new_fd, &buffer, READ_BUFFER_SIZE);
       printf("read_result: %d\n", read_result);
       printf("buffer: %s\n", buffer);
-
       // LS: loop above until \n\n is sent, signaling the end of an HTTP request
+      int option;
+      char search[5] = {'P', 'O', 'S', 'T', '\0'};
+      if (strstr(buffer, search)) {
+        option = 1;
+        printf("\nFound\n");
+        // puts("\nFound");
+      }
+      if (strstr(buffer, GET_INFO)) {
+        option = 2;
+        // printf("\nFound Get\n");
+        puts("\nFound Info");
+      } else if (strstr(buffer, GET_ROOT)) {
+        option = 3;
+        // printf("\nFound Get\n");
+        puts("\nFound Get");
+      }
 
       // LS: parse the input and determine what result to send
       close(sockfd); // child doesn't need the listener
       // LS: Send the correct response in JSON format
-      if (send(new_fd, "Hello, world!", 13, 0) == -1)
-        perror("send");
+      switch (option) {
+        case 1:
+          if (send(new_fd, "HTTP/1.0 200 OK\n\n<html>1</html>", 32, 0) == -1)
+          perror("send");
+        break;
+        case 2:
+          if (send(new_fd, "HTTP/1.0 200 OK\n\n<html>2</html>", 32, 0) == -1)
+          perror("send");
+        break;
+        case 3:
+          if (send(new_fd, "HTTP/1.0 200 OK\n\n<html>3</html>", 32, 0) == -1)
+          perror("send");
+        break;
+        default:
+          if (send(new_fd, "HTTP/1.0 200 OK\n\n<html></html>", 32, 0) == -1)
+          perror("send");
+        break;
+      }
+      // if (send(new_fd, "HTTP/1.0 200 OK\n\n<html></html>", 32, 0) == -1)
+      //   perror("send");
       close(new_fd);
       exit(0);
     }
