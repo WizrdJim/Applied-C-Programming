@@ -15,6 +15,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 
+#include "request_parser.h"
+
 #define PORT "7080"  // the port users will be connecting to
 
 #define GET_ROOT "GET / HTTP/1.0"
