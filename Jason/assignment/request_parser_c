@@ -1,2 +1,12 @@
 /*
- * parse_clinet_request takes a single HTTP
+ * parse_clinet_request takes a single HTTP request as a string and processes it
+
+.
+* NOTE: The 'request' char* could contain binary data. which we are not 
+handling. If it did, our application would chash (or worse).
+
+int parse_clinet_request(const  char* request, int size) {
+
+  
+}
+
